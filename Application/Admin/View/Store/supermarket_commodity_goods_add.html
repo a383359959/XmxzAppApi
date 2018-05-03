@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/editor/themes/default/default.css" />
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/kindeditor-min.js"></script>
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/lang/zh_CN.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>{$store.store_name} - {$category.name} - 添加商品</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<input type="hidden" name="store_id" value="{$store.id}" />
+						<input type="hidden" name="category_id" value="{$category.id}" />
+						<ul>
+							<li>
+								<label>商品名称：</label>
+								<input type="text" name="goods_name" placeholder="请填写商品名称" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>缩略图：</label>
+								{:createUpload('litpic')}
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>产品图：</label>
+								{:createUploads('images')}
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>价格：</label>
+								<input type="text" name="price" placeholder="请填写价格" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>规格：</label>
+								<input type="text" name="attr" placeholder="请填写规格，多个用逗号隔开，例如：大碗,小碗" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

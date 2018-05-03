@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>订单详情</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<ul>
+							<li>
+								<label>订单编号：</label>
+								<p style="float:left;line-height:30px;">{$order.order_sn}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>店铺名称：</label>
+								<p style="float:left;line-height:30px;">{$order.store_name}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>下单时间：</label>
+								<p style="float:left;line-height:30px;">{$order.add_time|date="Y-m-d H:i:s",###}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>付款状态：</label>
+								<p style="float:left;line-height:30px;"><if condition="$order['status'] == 2 OR $order['status'] == 3">已退款<elseif condition="$order['pay_status'] == 1" />已付款<else />未付款</if></p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>备注：</label>
+								<p style="float:left;line-height:30px;"><if condition="$order['note'] == ''">暂无<else />{$order.note}</if></p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>配送方式：</label>
+								<p style="float:left;line-height:30px;">
+									<if condition="$order['send_status'] == 0">
+										暂无
+									<elseif condition="$order['send_status'] == 1" />
+										全职配送
+									<elseif condition="$order['send_status'] == 2" />
+										兼职配送
+									<elseif condition="$order['send_status'] == 3" />
+										随手带配送
+									<elseif condition="$order['send_status'] == 4" />
+										商家配送
+									</if>
+								</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>联系人：</label>
+								<p style="float:left;line-height:30px;">{$address.name}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>联系电话：</label>
+								<p style="float:left;line-height:30px;">{$address.telephone}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>联系地址：</label>
+								<p style="float:left;line-height:30px;">{$address.address}</p>
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<if condition="$order['peisong_id'] GT 0">
+				<h1>兼职信息</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<ul>
+							<li>
+								<label>姓名：</label>
+								<p style="float:left;line-height:30px;">{$order.peisong.name}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>电话：</label>
+								<p style="float:left;line-height:30px;">{$order.peisong.phone}</p>
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+				</if>
+				<h1>商品列表</h1>
+				<div class="right_container_form">{:getOrderGoods($order)}</div>
+				<h1>状态列表</h1>
+				<div class="right_container_form">
+					<ul>{$order.html}
+						<volist name="order_msg" id="value">
+							<li>{$value.time|date="Y-m-d H:i:s",###}&nbsp;&nbsp;&nbsp;&nbsp;{$value.msg}</li>
+						</volist>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

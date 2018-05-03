@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>学校管理</h1>
+				<div class="right_container_action">
+					<ul>
+						<li><a href="{:U('school_add')}">添加</a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>学校名称</th>
+							<th>排序</th>
+							<th width="600">操作</th>
+						</tr>
+						<foreach name="list" item="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td>{$vo.name}</td>
+							<td>{$vo.sort}</td>
+							<td><a href="{:U('System/time',array('school_id' => $vo['id']))}">时间管理</a>&nbsp;|&nbsp;<a href="{:U('Count/count_order',array('school_id' => $vo['id']))}">订单统计</a>&nbsp;|&nbsp;<a href="{:U('System/map',array('school_id' => $vo['id']))}">地图管理</a>&nbsp;|&nbsp;<a href="{:U('System/peisong',array('school_id' => $vo['id']))}">配送管理</a>&nbsp;|&nbsp;<a href="{:U('Store/food',array('school_id' => $vo['id']))}">店铺管理</a>&nbsp;|&nbsp;<a href="{:U('System/order',array('school_id' => $vo['id']))}">订单管理</a>&nbsp;|&nbsp;<a href="{:U('school_address',array('id' => $vo['id']))}">收货地址</a>&nbsp;|&nbsp;<a href="{:U('school_edit',array('id' => $vo['id']))}">修改</a>&nbsp;|&nbsp;<a href="{:U('school_delete',array('id' => $vo['id']))}">删除</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

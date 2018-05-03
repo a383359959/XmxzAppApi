@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>{$store.store_name} - {$category.name} - 商品管理</h1>
+				<div class="right_container_action">
+					<ul>
+						<li><a href="{:U('food',array('school_id' => $store['school_id']))}">店铺管理</a></li>
+						<li><a href="{:U('food_commodity',array('store_id' => $store['id']))}">分类管理</a></li>
+						<li><a href="{:U('food_commodity_goods_add',array('store_id' => $_REQUEST['store_id'],'category_id' => $_REQUEST['category_id']))}">添加</a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>名称</th>
+							<th>价格</th>
+							<th style="width:200px;">操作</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td>{$value.goods_name}</td>
+							<td>{$value.price}</td>
+							<td><a href="{:U('food_commodity_goods_edit',array('store_id' => $value['store_id'],'category_id' => $value['category_id'],'id' => $value['id']))}">修改</a>&nbsp;|&nbsp;<a href="{:U('food_commodity_goods_delete',array('store_id' => $value['store_id'],'category_id' => $value['category_id'],'id' => $value['id']))}">删除</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+		<style>
+		td{
+			width:calc(100% / 6);
+		}
+		</style>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>{$store.store_name} - {$Think.get.time} - 自营商品</h1>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>名称</th>
+							<th>单价</th>
+							<th>数量</th>
+							<th>总价</th>
+							<th>订单</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td>{$value.goods_name}</td>
+							<td>{$value.goods_price}</td>
+							<td>{$value.goods_number}</td>
+							<td>{$value.goods_count}</td>
+							<td><a href="{:U('System/order_detail',array('order_id' => $value['order_id']))}" target="_blank">查看订单</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

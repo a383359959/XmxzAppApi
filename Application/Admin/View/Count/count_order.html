@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/echarts.js"></script>
+		
+		<style></style>
+		<script type="text/javascript">
+		$(function(){
+			var myChart = echarts.init(document.getElementById('main'));
+			var option = {
+				title : {
+					text: ''
+				},
+				color : ['#51acf9'],
+				tooltip : {
+					trigger: 'axis',
+					axisPointer : {
+						type : 'shadow'
+					}
+				},
+				legend : {
+					data:['订单数']
+				},
+				xAxis: {
+					data: {$days}
+				},
+				yAxis : [
+					{
+						type : 'value'
+					}
+				],
+				series: [{
+					name: '销量',
+					type: 'bar',
+					data: {$xiaoliang}
+				}]
+			};
+			myChart.setOption(option);
+		});
+		</script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>订单统计</h1>
+				<div class="right_container_list">
+					<div id="main" style="width:100%;height:500px;"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

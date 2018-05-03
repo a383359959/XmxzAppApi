@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/editor/themes/default/default.css" />
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/kindeditor-min.js"></script>
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/lang/zh_CN.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>修改商超</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<input type="hidden" name="id" value="{$row.id}" />
+						<input type="hidden" name="user_id" value="{$row.user_id}" />
+						<input type="hidden" name="old_username" value="{$row.username}" />
+						<ul>
+							<li>
+								<label>用户名：</label>
+								<input type="text" name="username" value="{$row.username}" placeholder="请填写用户名" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>密码：</label>
+								<input type="text" name="password" placeholder="请填写密码" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>商家名称：</label>
+								<input type="text" name="store_name" value="{$row.store_name}" placeholder="请填写商家名称" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>店铺图片：</label>
+								{:createUpload('logo',$row['logo'])}
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>排序：</label>
+								<input type="text" name="sort" value="{$row.sort}" placeholder="请填写排序" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>分类：</label>
+								<select name="type_id">
+									<option value="0">请选择</option>
+									<foreach name="category" item="value">
+									<option value="{$value.id}" <if condition="$value['id'] == $row['type_id']">selected="selected"</if> >{$value.name}</option>
+									</foreach>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>学校：</label>
+								<select name="school_id">
+									<option value="0">请选择</option>
+									<foreach name="school" item="value">
+									<option value="{$value.id}" <if condition="$value['id'] == $row['school_id']">selected="selected"</if> >{$value.name}</option>
+									</foreach>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>模式：</label>
+								<select name="category_id">
+									<option value="0">请选择</option>
+									<option value="1" <if condition="$row['category_id'] == 1">selected="selected"</if> >封闭式</option>
+									<option value="2" <if condition="$row['category_id'] == 2">selected="selected"</if> >开放式</option>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>是否充值：</label>
+								<select name="is_chongzhi">
+									<option value="0" <if condition="$row['is_chongzhi'] == 0">selected="selected"</if> >是</option>
+									<option value="1" <if condition="$row['is_chongzhi'] == 1">selected="selected"</if> >否</option>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>地址：</label>
+								<input type="text" name="address" value="{$row.address}" placeholder="请填写地址" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>简介：</label>
+								<textarea name="desc">{$row.desc}</textarea>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>起送费：</label>
+								<input type="text" name="price_qisong" value="{$row.price_qisong}" placeholder="请填写起送费" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>配送费：</label>
+								<input type="text" name="pei_price" value="{$row.pei_price}" placeholder="请填写配送费" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>打包费：</label>
+								<input type="text" name="dabao_price" value="{$row.dabao_price}" placeholder="请填写打包费" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>打赏费：</label>
+								<input type="text" name="dashang_price" value="{$row.dashang_price}" placeholder="请填写打赏费" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>营业时间：</label>
+								<textarea name="time_period">{$row.time_period}</textarea>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>配送时间：</label>
+								<input type="text" name="pei_time" value="{$row.pei_time}" placeholder="请填写配送时间" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

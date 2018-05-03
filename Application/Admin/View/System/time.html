@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/shijian.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquer_shijian.js"></script>
+		<script>
+		$(function(){
+			var index = $('.yy_time').length + 1;
+			<if condition="$arr['time_period'] == ''">
+			$('#begin_time_1').shijian({
+				Year : false,
+				Month : false,
+				Day : false
+			});
+			$('#end_time_1').shijian({
+				Year : false,
+				Month : false,
+				Day : false
+			});
+			<else />
+				<volist name="arr.time_period" id="value" key="key">
+				$('#begin_time_{$key}').shijian({
+					Year : false,
+					Month : false,
+					Day : false
+				});
+				$('#end_time_{$key}').shijian({
+					Year : false,
+					Month : false,
+					Day : false
+				});
+				</volist>
+			</if>
+			$('.add_time').bind('click',function(){
+				var html = '<li class="yy_time"><label></label><input type="text" id="begin_time_' + index + '" class="begin_time" readonly style="width:10%"> <span style="display:block;width:50px;text-align:center;float:left;line-height:30px">至</span> <input type="text" id="end_time_' + index + '" class="end_time" readonly style="width:10%"><a href="javascript:;" class="del_time" style="line-height:30px;color:#333;margin-left:10px;float:left;">删除</a><div class="clear"></div></li>';
+				$('.yy_time:last').after(html);
+				$('#begin_time_' + index).shijian({
+					Year : false,
+					Month : false,
+					Day : false
+				});
+				$('#end_time_' + index).shijian({
+					Year : false,
+					Month : false,
+					Day : false
+				});
+				index++;
+			});
+			$(document).on('click','.del_time',function(){
+				var len = $('.yy_time').length;
+				if(len == 1){
+					$('.begin_time').val('');
+					$('.end_time').val('');
+				}else{
+					$(this).parent().remove();
+				}
+			});
+			$('form').submit(function(){
+				var times = new Array();
+				$('.yy_time .begin_time').each(function(){
+					var index = $('.yy_time .begin_time').index($(this));
+					var begin_time = $(this).val();
+					var end_time = $('.yy_time .end_time').eq(index).val();
+					if(begin_time != '' && end_time != ''){
+						times.push(begin_time + '-' + end_time);
+					}
+				});
+				var time_period = times.join(','); 
+				$('input[name="time_period"]').val(time_period);
+			});
+		});
+		</script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>{$school_name} - 时间管理</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<input type="hidden" name="time_period" value="{$time_period}" />
+						<ul>
+							<if condition="$arr['time_period'] == ''">
+							<li class="yy_time">
+								<label>营业时间：<a href="javascript:;" class="add_time" style="line-height:30px;color:#333;margin-left:10px;">增加</a></label>
+								<input type="text" id="begin_time_1" class="begin_time" readonly style="width:10%;"  />
+								<span style="display:block;width:50px;text-align:center;float:left;line-height:30px;">至</span>
+								<input type="text" id="end_time_1" class="end_time" readonly style="width:10%;"  />
+								<a href="javascript:;" class="del_time" style="line-height:30px;color:#333;margin-left:10px;float:left;">删除</a>
+								<div class="clear"></div>
+							</li>
+							<else />
+								<volist name="arr.time_period" id="value" key="key">
+								<li class="yy_time">
+									<label><if condition="$key == 1">营业时间：<a href="javascript:;" class="add_time" style="line-height:30px;color:#333;margin-left:10px;">增加</a></if></label>
+									<input type="text" id="begin_time_{$key}" class="begin_time" value="{$value[0]}" readonly style="width:10%;"  />
+									<span style="display:block;width:50px;text-align:center;float:left;line-height:30px;">至</span>
+									<input type="text" id="end_time_{$key}" class="end_time" value="{$value[1]}" readonly style="width:10%;"  />
+									<a href="javascript:;" class="del_time" style="line-height:30px;color:#333;margin-left:10px;float:left;">删除</a>
+									<div class="clear"></div>
+								</li>
+								</volist>
+							</if>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

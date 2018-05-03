@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/alert.css" />
+		<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/bootstrap-datetimepicker.min.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="https://cdn.bootcss.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/alert.js"></script>
+		<script type="text/javascript">
+		$(function(){
+			$('input[name="begin_time"]').datetimepicker({
+				language : 'zh-CN',
+				autoclose : true,
+				minuteStep : 1
+			});
+			$('input[name="end_time"]').datetimepicker({
+				language : 'zh-CN',
+				autoclose : true,
+				minuteStep : 1
+			});
+			$('.submit').bind('click',function(){
+				$('form').submit();
+			});
+			$('.tuikuan').bind('click',function(){
+				var msg = confirm('确定退款？');
+				if(msg) window.location.href = $(this).attr('data_href');
+			});
+			var msg = {};
+			$('.paidan').bind('click',function(){
+				var order_id = $(this).attr('order_id');
+				msg.paidan = jqueryAlert({
+					'title'   	: '派单',
+					'modal'   	: true,
+					'content' 	: '<select class="peisong_id"><option value="0">请选择</option><volist name="peisong" id="value"><option value="{$value.id}">{$value.name}-{$value.phone}</option></volist></select>',
+					'buttons' :{
+						'确定' : function(){
+							var peisong_id = $('.peisong_id').val();
+							$.ajax({
+								url : '{:U("order_paidan")}',
+								data : {
+									order_id : order_id,
+									peisong_id : peisong_id
+								},
+								dataType : 'json',
+								success : function(result){
+									if(result.status == 'success'){
+										msg.paidan.destroy();
+										msg.dialog = jqueryAlert({
+											'icon'    : '__PUBLIC__/Home/images/right.png',
+											'content' : '派单成功',
+											'closeTime' : 2000,
+										});
+										setTimeout(function(){
+											window.location.href = window.location.href;
+										},2000);
+									}
+								}
+							});
+						},
+						'取消' : function(){
+							msg.paidan.destroy();
+						}
+					}
+				});
+			});
+		});
+		</script>
+		<style>
+		.right_container_action .input{
+			width:150px;
+		}
+		</style>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>订单管理</h1>
+				<div class="right_container_action">
+					<ul>
+						<form action="" method="get">
+							<li><input type="text" class="input" name="keyword" value="{$Think.get.keyword}" placeholder="请输入顾客姓名或电话" /></li>
+							<li><input type="text" class="input" name="begin_time" value="{$Think.get.begin_time}" placeholder="请选择开始时间" /></li>
+							<li><input type="text" class="input" name="end_time" value="{$Think.get.end_time}" placeholder="请选择结束时间" /></li>
+							<li><a href="javascript:;" class="submit">搜索</a></li>
+							<div class="clear"></div>
+						</form>
+					</ul>
+				</div>
+				<style>
+				.msg{
+					background:#51acf9;
+					padding:10px;
+					color:#fff;
+					border-radius:5px;
+				}
+				.msg p{
+					margin:0px;
+					line-height:30px;
+				}
+				.msg span{
+					color : red;
+					margin : 0px 10px;
+				}
+				</style>
+				<div class="msg">
+					<p style="text-align:center;">信息统计中，该功能比较消耗资源，可能统计较慢，如果失败则有提示，请勿刷新，请稍后。。。</p>
+				</div>
+				<script>
+				$(function(){
+					$.ajax({
+						url : '{:U("order_ajax_tongji")}',
+						data : {
+							store_id : '{$Think.get.store_id}',
+							school_id : '{$Think.get.school_id}',
+							peisong_id : '{$Think.get.peisong_id}',
+							begin_time : '{$Think.get.begin_time}',
+							end_time : '{$Think.get.end_time}'
+						},
+						success : function(result){
+							$('.msg').html(result);
+						},
+						error : function(){
+							$('.msg').html('<p style="text-align:center;color:red;">统计失败，请联系网站管理员！</p>');
+						}
+					});
+				});
+				</script>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>店铺类型</th>
+							<th>订单类型</th>
+							<th>姓名 - 电话</th>
+							<th>商家名称</th>
+							<th>商品合计（{$goods_price}元）</th>
+							<th>配送合计（{$dashang_price}元）</th>
+							<th>配送地址</th>
+							<th>骑手姓名</th>
+							<th>付款时间</th>
+							<th>当前状态</th>
+							<th style="width:200px;">操作</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td>
+								<if condition="$value['type'] == 1">
+									洗衣
+								<elseif condition="$value['type'] == 2" />
+									快递
+								<elseif condition="$value['type'] == 3" />
+									餐饮
+								<elseif condition="$value['type'] == 4" />
+									商超
+								</if>
+							</td>
+							<td>
+								<if condition="$value['status'] == 0">
+									下单
+								<elseif condition="$value['status'] == 1" />
+									商家确认订单/抢单中
+								<elseif condition="$value['status'] == 2" />
+									商家取消订单
+								<elseif condition="$value['status'] == 3" />
+									用户取消订单
+								<elseif condition="$value['status'] == 4" />
+									派单中
+								<elseif condition="$value['status'] == 5" />
+									已派给骑手
+								<elseif condition="$value['status'] == 6" />
+									骑手接单/配送中
+								<elseif condition="$value['status'] == 7" />
+									骑手确定送达
+								<elseif condition="$value['status'] == 8" />
+									用户确认收货/未评价
+								<elseif condition="$value['status'] == 9" />
+									已完成/已评价
+								</if>
+							</td>
+							<td>{$value.user_address.name} - {$value.user_address.telephone}</td>
+							<td>{$value.store.store_name}</td>
+							<td>{$value.goods_price_count}</td>
+							<td>{$value.child.dashang_price}</td>
+							<td>{$value.user_address.address}</td>
+							<td><if condition="$value['peisong_id'] GT 0">{$value.peisong.name}</if></td>
+							<td>{$value.pay_time|date="Y-m-d H:i:s",###}</td>
+							<td><if condition="$value['status'] == 2 OR $value['status'] == 3">已退款<elseif condition="$value['pay_status'] == 1" />已付款<else />未付款</if></td>
+							<td><a href="javascript:;" class="paidan" order_id="{$value.id}">派单</a>&nbsp;|&nbsp;<a href="{:U('order_detail',array('order_id' => $value['id']))}">详细</a>&nbsp;|&nbsp;<a href="javascript:;" class="tuikuan" data_href="{:U('order_tuikuan',array('id' => $value['id'],'price' => $value['count']))}">退款</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

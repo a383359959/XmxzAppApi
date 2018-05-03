@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>评论详情</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<ul>
+							<li>
+								<label>订单编号：</label>
+								<p style="float:left;line-height:30px;">{$row.order.order_sn}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>店铺名称：</label>
+								<p style="float:left;line-height:30px;">{$row.store.store_name}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>下单时间：</label>
+								<p style="float:left;line-height:30px;">{$row.order.add_time|date="Y-m-d H:i:s",###}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>送货时间：</label>
+								<p style="float:left;line-height:30px;"><if condition="$row['child']['pei_time'] == 1">尽快送达<else />{$row.child.pei_time|date="Y-m-d H:i:s",###}</if></p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>送达时间：</label>
+								<p style="float:left;line-height:30px;"><if condition="$row['order']['songda_time'] == 0">暂无<else />{$row.order.songda_time|date="Y-m-d H:i:s",###}</if></p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>评论时间：</label>
+								<p style="float:left;line-height:30px;">{$row.add_time|date="Y-m-d H:i:s",###}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>备注：</label>
+								<p style="float:left;line-height:30px;"><if condition="$row['order']['note'] == ''">暂无<else />{$row.order.note}</if></p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>联系人：</label>
+								<p style="float:left;line-height:30px;">{$address.name}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>联系电话：</label>
+								<p style="float:left;line-height:30px;">{$address.telephone}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>联系地址：</label>
+								<p style="float:left;line-height:30px;">{$address.address}</p>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>评论内容：</label>
+								<p style="float:left;line-height:30px;">{$row.content}</p>
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+				<h1>商品列表</h1>
+				<div class="right_container_form">{:getOrderGoods($row['order'])}</div>
+			</div>
+		</div>
+	</body>
+</html>

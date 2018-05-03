@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+		<script type="text/javascript">
+		$(function(){
+			$('.search').bind('click',function(){
+				var value = $('.input').val();
+				var url = getUrl('nickname',value,'{:iconv('gbk','utf-8',$_REQUEST['nickname'])}');
+				window.location.href = url;
+			});
+			function getUrl(key,value,v){
+				var url = window.location.href;
+				url = url.replace('.html','');
+				url = decodeURI(url);
+				if(url.indexOf(key) > -1) url = url.replace('/' + key + '/' + v,'');
+				url += '/' + key + '/' + value;
+				return url + '.html';
+			}
+		});
+		</script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>用户管理</h1>
+				<div class="right_container_action">
+					<ul>
+						<li><input type="text" class="input" value="{:iconv('gbk','utf-8',$_REQUEST['nickname'])}" placeholder="请输入昵称" /></li>
+						<li><a href="javascript:;" class="search">搜索</a></li>
+						<li><a href="{:U('banner_add')}">添加</a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>昵称</th>
+							<th>权限</th>
+							<th>余额</th>
+							<th>积分</th>
+							<th style="width:200px;">操作</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td>{:base64_decode($value['nickname'])}</td>
+							<td><if condition="$value['is_pei'] == 1">兼职人员<else />无</if></td>
+							<td>{$value.money}</td>
+							<td>{$value.score}</td>
+							<td><a href="{:U('order',array('pei_user' => $value['id']))}">接单详情</a>&nbsp;|&nbsp;<a href="{:U('order',array('user_id' => $value['id']))}">订单详情</a>&nbsp;|&nbsp;<a href="{:U('user_edit',array('id' => $value['id']))}">修改</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

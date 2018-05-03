@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/shijian.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquer_shijian.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/editor/themes/default/default.css" />
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/kindeditor-min.js"></script>
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/lang/zh_CN.js"></script>
+		<script>
+		$(function(){
+			var index = $('.yy_time').length + 1;
+			$('#begin_time_1').shijian({
+				Year : false,
+				Month : false,
+				Day : false
+			});
+			$('#end_time_1').shijian({
+				Year : false,
+				Month : false,
+				Day : false
+			});
+			$('.add_time').bind('click',function(){
+				var html = '<li class="yy_time"><label></label><input type="text" id="begin_time_' + index + '" class="begin_time" readonly style="width:10%"> <span style="display:block;width:50px;text-align:center;float:left;line-height:30px">至</span> <input type="text" id="end_time_' + index + '" class="end_time" readonly style="width:10%"><a href="javascript:;" class="del_time" style="line-height:30px;color:#333;margin-left:10px;float:left;">删除</a><div class="clear"></div></li>';
+				$('.yy_time:last').after(html);
+				$('#begin_time_' + index).shijian({
+					Year : false,
+					Month : false,
+					Day : false
+				});
+				$('#end_time_' + index).shijian({
+					Year : false,
+					Month : false,
+					Day : false
+				});
+				index++;
+			});
+			$(document).on('click','.del_time',function(){
+				var len = $('.yy_time').length;
+				if(len == 1){
+					$('.begin_time').val('');
+					$('.end_time').val('');
+				}else{
+					$(this).parent().remove();
+				}
+			});
+			$('form').submit(function(){
+				var times = new Array();
+				$('.yy_time .begin_time').each(function(){
+					var index = $('.yy_time .begin_time').index($(this));
+					var begin_time = $(this).val();
+					var end_time = $('.yy_time .end_time').eq(index).val();
+					if(begin_time != '' && end_time != ''){
+						times.push(begin_time + '-' + end_time);
+					}
+				});
+				var time_period = times.join(','); 
+				$('input[name="time_period"]').val(time_period);
+			});
+		});
+		</script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>添加餐饮</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<input type="hidden" name="menu_school_id" value="{$Think.get.school_id}" />
+						<input type="hidden" name="time_period" value="" />
+						<ul>
+							<li>
+								<label>用户名：</label>
+								<input type="text" name="username" placeholder="请填写用户名" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>密码：</label>
+								<input type="text" name="password" placeholder="请填写密码" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>商家名称：</label>
+								<input type="text" name="store_name" placeholder="请填写商家名称" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>店铺图片：</label>
+								{:createUpload('logo')}
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>排序：</label>
+								<input type="text" name="sort" value="50" placeholder="请填写排序" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>龙源统计：</label>
+								<select name="is_longyuan">
+									<option value="0">否</option>
+									<option value="1">是</option>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>分类：</label>
+								<select name="type_id">
+									<option value="0">请选择</option>
+									<foreach name="category" item="value">
+									<option value="{$value.id}">{$value.name}</option>
+									</foreach>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>学校：</label>
+								<select name="school_id">
+									<option value="0">请选择</option>
+									<foreach name="school" item="value">
+									<option value="{$value.id}">{$value.name}</option>
+									</foreach>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>模式：</label>
+								<select name="category_id">
+									<option value="0">请选择</option>
+									<option value="1">封闭式</option>
+									<option value="2">开放式</option>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>是否充值：</label>
+								<select name="is_chongzhi">
+									<option value="0">是</option>
+									<option value="1">否</option>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>合作商家：</label>
+								<select name="is_hezuo">
+									<option value="0">是</option>
+									<option value="1">否</option>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>地址：</label>
+								<input type="text" name="address" value="" placeholder="请填写地址" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>简介：</label>
+								<textarea name="desc"></textarea>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>起送费：</label>
+								<input type="text" name="price_qisong" placeholder="请填写起送费" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>配送费：</label>
+								<input type="text" name="pei_price" value="" placeholder="请填写配送费" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>打包费：</label>
+								<input type="text" name="dabao_price" value="" placeholder="请填写打包费" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>打赏费：</label>
+								<input type="text" name="dashang_price" value="" placeholder="请填写打赏费" />
+								<div class="clear"></div>
+							</li>
+							<li class="yy_time">
+								<label>营业时间：<a href="javascript:;" class="add_time" style="line-height:30px;color:#333;margin-left:10px;">增加</a></label>
+								<input type="text" id="begin_time_1" class="begin_time" readonly style="width:10%;"  />
+								<span style="display:block;width:50px;text-align:center;float:left;line-height:30px;">至</span>
+								<input type="text" id="end_time_1" class="end_time" readonly style="width:10%;"  />
+								<a href="javascript:;" class="del_time" style="line-height:30px;color:#333;margin-left:10px;float:left;">删除</a>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>配送时间：</label>
+								<input type="text" name="pei_time" value="" placeholder="请填写配送时间" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

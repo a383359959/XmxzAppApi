@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+		
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>广告</h1>
+				<div class="right_container_action">
+					<ul>
+						<li><a href="{:U('add')}">添加</a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+					<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>广告图片</th>
+							<th>持续天数</th>
+							<th>添加时间</th>
+							<th>状态</th>
+							
+							<th style="width:200px;">操作</th>
+						</tr>
+						<foreach name="list" item="val">
+						<tr>
+							<td>{$val.id}</td>
+							<center><td>{:createUpload('pic',$val['pic'])}</td></center>
+							<td>{$val.ctime}</td>
+							<td>{$val.addtime|Date='Y-m-d H:i:s',###}</td>
+                             <td><if condition="$val[status] eq 1">到期<else/>正常</else></if>
+                                                
+							<td><a href="{:U('edit',array('id' => $val['id']))}">修改</a>&nbsp;|&nbsp;<a href="{:U('del',array('id' => $val['id']))}">删除</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$pageButton}</ul>
+					<div class="clear"></div>
+				</div>
+				<script>
+					$('.right_container_page ul a').unwrap('div').wrap('<li class="click"></li>');
+					$('.right_container_page ul span').wrap('<li class="focus"></li>').wrap('<a class="num"></a>');
+				</script>
+				
+	</body>
+</html>

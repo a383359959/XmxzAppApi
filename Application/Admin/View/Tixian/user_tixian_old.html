@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>提现管理</h1>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>昵称</th>
+							<th>金额</th>
+							<th>姓名</th>
+							<th>银行</th>
+							<th>卡号</th>
+							<th>提交时间</th>
+							<th>状态</th>
+							<th>操作</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td>{$value.nickname}</td>
+							<td>{$value.price}</td>
+							<td>{$value.name}</td>
+							<td>{$value.bank_name}</td>
+							<td>{$value.card}</td>
+							<td>{$value.add_time|date="Y-m-d H:i:s",###}</td>
+							<td><if condition="$value['status'] == 1">审核中<else />未审核</if></td>
+							<td><if condition="$value['status'] == 1"><a href="{:U('tixian_act',array('status' => 0,'id' => $value['id']))}">取消审核</a><else /><a href="{:U('tixian_act',array('status' => 1,'id' => $value['id']))}">审核</a></if></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

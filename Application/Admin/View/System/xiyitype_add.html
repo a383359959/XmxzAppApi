@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/editor/themes/default/default.css" />
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/kindeditor-min.js"></script>
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/lang/zh_CN.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>添加洗衣类型</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<ul>
+							<li>
+								<label>名称：</label>
+								<input type="text" name="name" placeholder="请填写名称" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>价格：</label>
+								<input type="text" name="price" placeholder="请填写价格" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>排序：</label>
+								<input type="text" name="sort" value="50" placeholder="请填写排序" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

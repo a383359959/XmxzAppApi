@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/alert.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/alert.js"></script>
+		<script src="http://webapi.amap.com/maps?v=1.4.0&key=b22ce3edc747426f486b6004021c50be"></script>
+		<script src="http://webapi.amap.com/ui/1.0/main.js?v=1.0.11"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/map.js"></script>
+		<script>var school_id = {$Think.get.school_id}</script>
+		<script>
+		$(function(){
+			var msg = {};
+			
+			$(document).on('click','.order_detail',function(){
+				var peisong_id = $(this).attr('peisong_id');
+				$.ajax({
+					url : '{:U("peisong_order")}',
+					data : {
+						peisong_id : peisong_id
+					},
+					dataType : 'json',
+					success : function(result){
+						msg.order_detail = jqueryAlert({
+							'style'   : 'pc',
+							'title'   : result.peisong.name + '的订单',
+							'content' :  '<div class="order_detail_s"><table><tr><td>商家名称</td><td>送货地址地址</td><td>送货时间</td><td>状态</td><td>派单时间</td><td>操作</td></tr>' + result.html + '</table></div>',
+							'modal'   : true,
+							'contentTextAlign' : 'left',
+							'width'   : '50%',
+							'height'  : '50%',
+							'animateType': 'scale',
+						});
+					}
+				});
+				
+			});
+			$(document).on('click','.paidan',function(){
+				var order_id = $(this).attr('order_id');
+				var action = $(this).attr('action');
+				var obj = $(this).parent().parent();
+				msg.paidan = jqueryAlert({
+					'title'   	: '派单',
+					'modal'   	: true,
+					'content' 	: '<select class="peisong_id"><option value="0">请选择</option><volist name="peisong" id="value"><option value="{$value.id}">{$value.name}-{$value.phone}</option></volist></select>',
+					'buttons' :{
+						'确定' : function(){
+							var peisong_id = $('.peisong_id').val();
+							$.ajax({
+								url : '/index.php/Admin/System/order_paidan.html',
+								data : {
+									order_id : order_id,
+									peisong_id : peisong_id,
+									action : action
+								},
+								dataType : 'json',
+								success : function(result){
+									if(result.status == 'success'){
+										msg.paidan.destroy();
+										msg.dialog = jqueryAlert({
+											'icon'    : '/Public/Home/images/right.png',
+											'content' : '派单成功',
+											'closeTime' : 2000,
+										});
+										obj.remove();
+									}else{
+										msg.paidan.destroy();
+										msg.dialog = jqueryAlert({
+											'icon'    : '/Public/Home/images/right.png',
+											'content' : '异常订单',
+											'closeTime' : 2000,
+										});
+									}
+									
+								}
+							});
+						},
+						'取消' : function(){
+							msg.paidan.destroy();
+						}
+					}
+				});
+			});
+		});
+		</script>
+		<style>
+		.map{
+			left:320px;
+			right:320px;
+			top:77px;
+			position:absolute;
+		}
+		.reload{
+			position:absolute;
+			right:20px;
+			line-height:75px;
+			top:0px;
+			color:#51acf9;
+		}
+		.my-marker .amap-simple-marker-label {
+			color: #fff;
+		}
+		.order_detail_s table{
+			width:100%;
+			border-collapse:collapse;
+		}
+		.order_detail_s td{
+			border:solid 1px #ccc;
+			text-align:center;
+			line-height:40px;
+		}
+		.order_detail_s td a{
+			color:#333;
+		}
+		</style>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container" style="position:relative;">
+				<h1>{$school.name} - 地图管理<a href="javascript::" class="reload">刷新</a></h1>
+				<div class="frame"></div>
+				<div class="map" id="container"></div>
+				<div class="order_manager">
+					<h1>订单管理</h1>
+					<ul></ul>
+				</div>
+				<div class="peisong_manager">
+					<h1>配送管理</h1>
+					<ul id="peisong_manager"></ul>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

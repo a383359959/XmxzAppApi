@@ -1,0 +1,13 @@
+<script type="text/javascript" src="__PUBLIC__/Admin/js/cloudstrong.js"></script>
+<script type="text/javascript">
+$(function(){
+	var application = new CloudStrong();
+	application.leftMenu('{$Think.CONTROLLER_NAME}','{$Think.ACTION_NAME}');
+});
+</script>
+<div class="top">
+	<div class="top_header"></div>
+	<div class="top_item">
+		<p>管理员：{$user.username}，今天是&nbsp;{:date('Y-m-d')}&nbsp;&nbsp;<a href="{:U('Index/changePassword')}">修改密码</a>&nbsp;&nbsp;<a href="{:U('Index/logout')}">退出</a></p>
+	</div>
+</div>

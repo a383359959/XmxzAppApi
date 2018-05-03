@@ -1,0 +1,21 @@
+*{
+	margin: 0px;
+	padding: 0px;
+	font-size: 14px;
+	font-family: '\5FAE\8F6F\96C5\9ED1';
+	outline: none;
+}
+body,html{
+	background: #f6f6f6;
+}
+ul,li{
+	margin: 0px;
+	padding: 0px;
+	list-style: none;
+}
+a{
+	text-decoration: none;
+}
+.clear{
+	clear: both;
+}

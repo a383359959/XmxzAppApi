@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>添加配送</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<ul>
+							<li>
+								<label>账号：</label>
+								<input type="text" name="username" placeholder="请填写账号" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>密码：</label>
+								<input type="text" name="password" placeholder="请填写账号" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>学校：</label>
+								<select name="school_id">
+									<option value="0">请选择</option>
+									<volist name="school" id="value">
+									<option value="{$value.id}">{$value.name}</option>
+									</volist>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>身份：</label>
+								<select name="shenfen">
+									<option value="0">请选择</option>
+									<option value="1">全职</option>
+									<option value="2">兼职</option>
+									<option value="3">随手带</option>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>姓名：</label>
+								<input type="text" name="name" placeholder="请填写姓名" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>电话：</label>
+								<input type="text" name="phone" placeholder="请填写姓名电话" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

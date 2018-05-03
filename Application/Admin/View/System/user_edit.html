@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/editor/themes/default/default.css" />
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/kindeditor-min.js"></script>
+		<script charset="utf-8" src="__PUBLIC__/Admin/editor/lang/zh_CN.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>修改用户</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<input type="hidden" name="id" value="{$Think.get.id}" />
+						<ul>
+							<li>
+								<label>昵称：</label>
+								<input type="text" readonly name="nickname" value="{$find.nickname}" placeholder="请填写昵称" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>兼职权限：</label>
+								<select name="is_pei">
+									<option value="0" <if condition="$find['is_pei'] == 0">selected="selected"</if> >无</option>
+									<option value="1" <if condition="$find['is_pei'] == 1">selected="selected"</if> >有</option>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>电话：</label>
+								<input type="text" name="telephone" value="{$find.telephone}" placeholder="请填写电话" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>姓名：</label>
+								<input type="text" name="name" value="{$find.name}" placeholder="请填写姓名" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/alert.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/alert.js"></script>
+		<script type="text/javascript">
+		$(function(){
+			$('.yifukuan').bind('click',function(){
+				var url = getUrl('pay_status',1,'{$Think.get.pay_status}');
+				window.location.href = url;
+			});
+			$('.weifukuan').bind('click',function(){
+				var url = getUrl('pay_status',0,'{$Think.get.pay_status}');
+				window.location.href = url;
+			});
+			$('.shipping_status').bind('click',function(){
+				var url = getUrl('shipping_status',1,'{$Think.get.shipping_status}');
+				window.location.href = url;
+			});
+			function getUrl(key,value,v){
+				var url = window.location.href;
+				url = url.replace('.html','');
+				if(url.indexOf(key) > -1) url = url.replace('/' + key + '/' + v,'');
+				url += '/' + key + '/' + value;
+				return url + '.html';
+			}
+			$('.tuikuan').bind('click',function(){
+				var msg = confirm('确定退款？');
+				if(msg) window.location.href = $(this).attr('data_href');
+			});
+			var msg = {};
+			$('.paidan').bind('click',function(){
+				var order_id = $(this).attr('order_id');
+				msg.paidan = jqueryAlert({
+					'title'   	: '派单',
+					'modal'   	: true,
+					'content' 	: '<select class="peisong_id"><option value="0">请选择</option><volist name="peisong" id="value"><option value="{$value.id}">{$value.name}-{$value.phone}</option></volist></select>',
+					'buttons' :{
+						'确定' : function(){
+							var peisong_id = $('.peisong_id').val();
+							$.ajax({
+								url : '{:U("order_paidan")}',
+								data : {
+									order_id : order_id,
+									peisong_id : peisong_id
+								},
+								dataType : 'json',
+								success : function(result){
+									if(result.status == 'success'){
+										msg.paidan.destroy();
+										msg.dialog = jqueryAlert({
+											'icon'    : '__PUBLIC__/Home/images/right.png',
+											'content' : '派单成功',
+											'closeTime' : 2000,
+										});
+										setTimeout(function(){
+											window.location.href = window.location.href;
+										},2000);
+									}
+								}
+							});
+						},
+						'取消' : function(){
+							msg.paidan.destroy();
+						}
+					}
+				});
+			});
+		});
+		</script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>龙源统计</h1>
+				<!--
+				<div class="right_container_action">
+					<ul>
+						<li><a href="{:U('order',array('user_id' => $_REQUEST['user_id'],'pei_user' => $_REQUEST['pei_user']))}">全部</a></li>
+						<li><a href="javascript:;" class="yifukuan">已付款</a></li>
+						<li><a href="javascript:;" class="weifukuan">未付款</a></li>
+						<li><a href="javascript:;" class="shipping_status">已完成</a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				-->
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>店铺名称</th>
+							<th>店铺地址</th>
+							<th>今天（{$today}）</th>
+							<th>昨天（{$yestoday}）</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td>{$value.store_name}</td>
+							<td>{$value.address}</td>
+							<td>{$value.today}</td>
+							<td>{$value.yestoday}</td>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

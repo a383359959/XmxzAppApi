@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript">
+		$(function(){
+			$('.del').bind('click',function(){
+				var msg = confirm('确定退款？');
+				if(msg) window.location.href = $(this).attr('data_href');
+			});
+		});
+		</script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>配送管理</h1>
+				<div class="right_container_action">
+					<ul>
+						<li><a href="{:U('peisong_add')}">添加</a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>学校</th>
+							<th>今日单数（已完成）</th>
+							<th>昨日单数（已完成）</th>
+							<th>商品钱（今日）</th>
+							<th>账号</th>
+							<th>姓名</th>
+							<th>电话</th>
+							<th>身份</th>
+							<th style="width:300px;">操作</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td>{$value.school_name}</td>
+							<td>{$value.order_count}</td>
+							<td>{$value.yes_order_count}</td>
+							<td>{:getOrderShangPinCountToday($value['id'])}</td>
+							<td>{$value.username}</td>
+							<td>{$value.name}</td>
+							<td>{$value.phone}</td>
+							<td>
+								<if condition="$value['shenfen'] == 1">
+									全职
+								<elseif condition="$value['shenfen'] == 2" />
+									兼职
+								<elseif condition="$value['shenfen'] == 3" />
+									随手带
+								</if>
+							</td>
+							<td><a href="{:U('System/order',array('school_id' => $_REQUEST['school_id'],'peisong_id' => $value['id']))}">历史订单</a>&nbsp;|&nbsp;<a href="{:U('peisong_msg',array('id' => $value['id']))}">查看评论</a>&nbsp;|&nbsp;<a href="{:U('peisong_edit',array('id' => $value['id']))}">修改</a>&nbsp;|&nbsp;<a href="javascript:;" class="del" data_href="{:U('peisong_del',array('id' => $value['id']))}">删除</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>投票列表</h1>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>姓名</th>
+							<th>加盟区域第一选择</th>
+							<th>加盟区域第二选择</th>
+							<th>电话</th>
+							<th>填写时间</th>
+							<th>操作</th>
+						</tr>
+						<foreach name="list" item="vo">
+						<tr>
+							<td>{$vo.id}</td>
+							<td>{$vo.arr.name}</td>
+							<td>{$vo.arr.city1}</td>
+							<td>{$vo.arr.city2}</td>
+							<td>{$vo.arr.mobile}</td>
+							<td>{$vo.begin_time|date='Y-m-d H:i:s',###}</td>
+							<td><a href="{:U('Home/Index/index',array('act' => 'detail','id' => $vo['id']))}" target="_blank">查看详情</a>&nbsp;|&nbsp;<a href="{:U('delete',array('id' => $vo['id']))}">删除</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

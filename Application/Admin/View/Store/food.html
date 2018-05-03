@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>餐饮管理</h1>
+				<div class="right_container_action">
+					<ul>
+						<li><a href="{:U('food_add')}">添加</a></li>
+						<div class="clear"></div>
+					</ul>
+				</div>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>学校</th>
+							<th>店铺名称</th>
+							<th>账户余额</th>
+							<th>模式</th>
+							<th>地址</th>
+							<th>排序</th>
+							<th style="width:500px;">操作</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td>{$value.school}</td>
+							<td>{$value.store_name}</td>
+							<td>{$value.price}</td>
+							<td><if condition="$value['category_id'] == 1">封闭式<elseif condition="$value['category_id'] == 2" />开放式<else />未选择</if></td>
+							<td>{$value.address}</td>
+							<td>{$value.sort}</td>
+							<td><a href="{:U('food_xiaoliang',array('store_id' => $value['id'],'type' => 'month'))}">销量统计（月）</a>&nbsp;|&nbsp;<a href="{:U('food_xiaoliang',array('store_id' => $value['id'],'type' => 'day'))}">销量统计（天）</a>&nbsp;|&nbsp;<a href="{:U('food_liushui',array('store_id' => $value['id']))}">流水管理</a>&nbsp;|&nbsp;<a href="{:U('System/order',array('store_id' => $value['id'],'school_id' => $_REQUEST['school_id']))}">订单管理</a>&nbsp;|&nbsp;<a href="{:U('food_commodity',array('store_id' => $value['id']))}">分类管理</a>&nbsp;|&nbsp;<a href="{:U('food_edit',array('id' => $value['id'],'school_id' => $_REQUEST['school_id']))}">修改</a>&nbsp;|&nbsp;<a href="{:U('food_delete',array('id' => $value['id']))}">删除</a></td>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

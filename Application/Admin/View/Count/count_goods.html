@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/echarts.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+		
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>订单数量统计</h1>
+				<div class="right_container_action">
+				 <div id="box">
+					<input type="text" name="" id="na" placeholder="商家名">
+					时间搜索<select name="sel1" id="sel1">
+						        <option value="year">年</option>
+						    </select>
+						    <select name="sel2" id="sel2">
+						    	<option value="month">月</option>
+						    </select>
+						    <select name="sel3" id="sel3">
+						    	<option value="day">日</option>
+						    </select>
+	    						<span id="result"><input id="sou" type="submit" value="搜索" /></span>
+
+						</div>
+				</div>
+					<div class="right_container_list">
+						<div id="main" style="width: 2200px;height:600px;"></div>
+			
+				</div>
+					<!--  <div id="main" style="width: 600px;height:400px;"></div> -->
+
+
+				
+					</div>
+
+				</div> 
+			
+					<div class="right_container_list">
+					
+
+					 	
+							
+					</div>
+
+				</div>
+				
+		<script type="text/javascript">
+		//生成2016年-2017年
+			for(var i = 2016; i<=2017;i++){
+			    var option = document.createElement('option');
+			    option.setAttribute('value',i);
+			    option.innerHTML = i;
+			    sel1.appendChild(option);
+			}
+			//生成1月-12月
+			for(var i = 1; i <=12; i++){
+			    var option = document.createElement('option');
+			    option.setAttribute('value',i);
+			    option.innerHTML = i;
+			    sel2.appendChild(option);    
+			}
+			//生成1日—31日
+			for(var i = 1; i <=31; i++){
+			    var option = document.createElement('option');
+			    option.setAttribute('value',i);
+			    option.innerHTML = i;
+			    sel3.appendChild(option);    
+			}
+		</script>
+		<script type="text/javascript">
+
+		$("#sou").click(function(){
+		var a=$("#sel1").val();
+		var b=$("#sel2").val();
+		var c=$("#sel3").val();
+		var d =$("#na").val();
+			 $.ajax({  
+                    type : "POST",  //提交方式  
+                    url : "{:U('Count/goods_tongji')}",//路径  
+                    data : {  
+                        "Y" : a,
+                        "M" : b,
+                        "D" : c,
+                        "A" : d,
+                      
+                    },//数据，这里使用的是Json格式进行传输  
+                    	success:function(mes){
+                    		
+                    		 var json = eval('(' + mes + ')');
+                    		 console.log(json['0']);
+                    		 console.log(json['1']);
+                    		 
+
+						var myChart = echarts.init(document.getElementById('main'));
+
+
+								var option = {
+								    color: ['#3398DB'],
+								    tooltip : {
+								        trigger: 'axis',
+								        axisPointer : {            // 坐标轴指示器，坐标轴触发有效
+								            type : 'line'        // 默认为直线，可选为：'line' | 'shadow'
+								        }
+								    },
+								    grid: {
+								        left: '3%',
+								        right: '4%',
+								        bottom: '3%',
+								        containLabel: true
+								    },
+
+								    xAxis : [
+								        {
+								            type : 'category',
+								     //         axisLabel :{
+             //   									 interval:0,
+													// rotate:40
+           		// 								 },
+								            data : json['0'],
+								            axisTick: {
+								                alignWithLabel: true
+								            }
+								        }
+								    ],
+								    yAxis : [
+								        {
+								            type : 'value'
+								        }
+								    ],
+								    series : [
+								        {
+								            name:'个数',
+								            type:'bar',
+								            barWidth: '60%',
+								            data:json['1']
+								        }
+								    ]
+								};
+							        // 使用刚指定的配置项和数据显示图表。
+							        myChart.setOption(option);
+							      }
+
+                });  
+	
+			});
+
+		</script>
+	</body>
+</html>

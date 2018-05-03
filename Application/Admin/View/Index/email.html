@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>邮箱设置</h1>
+				<div class="right_container_form">
+					<form action="{:U('email_save')}" method="post">
+						<ul>
+							<li>
+								<label>网站地址：</label>
+								<input type="text" name="url" value="{$find.url}" placeholder="网站地址" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>服务器地址：</label>
+								<input type="text" name="smtp" value="{$find.smtp}" placeholder="请输入服务器地址" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>发件箱地址：</label>
+								<input type="text" name="send_email" value="{$find.send_email}" placeholder="请输入发件箱地址" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>发件箱密码：</label>
+								<input type="text" name="send_email_password" value="{$find.send_email_password}" placeholder="请输入发件箱密码" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>收件人地址：</label>
+								<input type="text" name="email_address" value="{$find.email_address}" placeholder="请输入收件人地址" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

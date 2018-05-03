@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/echarts.js"></script>
+		
+		<style></style>
+		<script type="text/javascript">
+		$(function(){
+			var myChart = echarts.init(document.getElementById('main'));
+			var option = {
+				color : ['#3398DB'],
+				tooltip : {
+					trigger: 'axis',
+					axisPointer : {
+						type : 'shadow'
+					}
+				},
+				xAxis : [
+					{
+						type : 'category',
+						data : ['订单数','退单数','骑手 - 好评数（4-5星）','骑手 - 差数（1-2星）','商户 - 好评数（4-5星）','商户 - 好评数（4-5星）','投诉','总收入','打赏费','商品费','新增用户'],
+						axisTick: {
+							alignWithLabel: true
+						}
+					}
+				],
+				yAxis : [
+					{
+						type : 'value'
+					}
+				],
+				series : [
+					{
+						name : '数量 ',
+						type : 'bar',
+						barWidth : '60%',
+						data : {$data}
+					}
+				]
+			};
+			myChart.setOption(option);
+		});
+		</script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>销售统计</h1>
+				<div class="right_container_list">
+					<div id="main" style="width:100%;height:500px;"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

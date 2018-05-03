@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/login.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>{$store.store_name} - 销量统计<if condition="$_REQUEST['type'] == 'day'">（天）<elseif condition="$_REQUEST['type'] == 'month'" />（月）</if></h1>
+				<div class="right_container_list">
+					<table cellpadding="0" cellspacing="0">
+						<tr>
+							<th>ID</th>
+							<th>时间</th>
+							<th>自营</th>
+							<th>商户</th>
+							<th>总数</th>
+							<th>数量</th>
+							<th width="200">操作</th>
+						</tr>
+						<foreach name="list" item="value">
+						<tr>
+							<td>{$value.id}</td>
+							<td><if condition="$_REQUEST['type'] == 'day'">{$value.time}<elseif condition="$_REQUEST['type'] == 'month'" />{$value.date}</if></td>
+							<td><if condition="$_REQUEST['type'] == 'day'">{$value.ziying}<elseif condition="$_REQUEST['type'] == 'month'" />{$value.ziying_count}</if></td>
+							<td><if condition="$_REQUEST['type'] == 'day'">{$value.fei_ziying}<elseif condition="$_REQUEST['type'] == 'month'" />{$value.fei_ziying_count}</if></td>
+							<td>{$value.price_count}</td>
+							<td>{$value.count} 单</td>
+							<if condition="$_REQUEST['type'] == 'day'">
+							<td><a href="/index.php/Admin/System/order/store_id/{$value.store_id}/school_id/{$store.school_id}.html?where=a.is_ziying = 1 and a.`status` > 6&keyword=&begin_time={$value.time} 00:00:00&end_time={$value.time} 23:59:59">自营订单</a> | <a href="{:U('food_xiaoliang_ziying',array('store_id' => $value['store_id'],'time' => $value['time']))}">自营商品</a> | <a href="/index.php/Admin/System/order/store_id/{$value.store_id}/school_id/{$store.school_id}.html?where=a.`status` > 6&keyword=&begin_time={$value.time} 00:00:00&end_time={$value.time} 23:59:59">订单管理</a></td>
+							<elseif condition="$_REQUEST['type'] == 'month'" />
+							<td><a href="/index.php/Admin/System/order/store_id/{$value.store_id}/school_id/{$store.school_id}.html?where=a.is_ziying = 1 and a.`status` > 6&keyword=&begin_time={$value.date}-01 00:00:00&end_time={$value.date}-31 23:59:59">自营订单</a> | <a href="{:U('food_xiaoliang_ziying',array('store_id' => $value['store_id'],'time' => $value['date']))}">自营商品</a> | <a href="/index.php/Admin/System/order/store_id/{$value.store_id}/school_id/{$store.school_id}.html?where=a.`status` > 6&keyword=&begin_time={$value.date}-01 00:00:00&end_time={$value.date}-31 23:59:59">订单管理</a></td>
+							</if>
+						</tr>
+						</foreach>
+					</table>
+				</div>
+				<div class="right_container_page">
+					<ul>{$page}</ul>
+					<div class="clear"></div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>

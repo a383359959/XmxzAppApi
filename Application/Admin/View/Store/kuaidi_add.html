@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>{:adminTitle(CONTROLLER_NAME.'/'.ACTION_NAME)}</title>
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/common.css" />
+		<link rel="stylesheet" href="__PUBLIC__/Admin/css/style.css" />
+		<script type="text/javascript" src="__PUBLIC__/Admin/js/jquery.js"></script>
+	</head>
+	<body>
+		{:W('Common/top')}
+		{:W('Common/left')}
+		<div class="right">
+			<div class="right_container">
+				<h1>添加代取快递</h1>
+				<div class="right_container_form">
+					<form action="" method="post">
+						<input type="hidden" name="form_submit" value="ok" />
+						<ul>
+							<li>
+								<label>用户名：</label>
+								<input type="text" name="username" placeholder="请填写用户名" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>密码：</label>
+								<input type="text" name="password" placeholder="请填写密码" />
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label>学校：</label>
+								<select name="school_id">
+									<option value="0">请选择</option>
+									<foreach name="school" item="value">
+									<option value="{$value.id}">{$value.name}</option>
+									</foreach>
+								</select>
+								<div class="clear"></div>
+							</li>
+							<li>
+								<label></label>
+								<input type="submit" value="提交" />
+								<div class="clear"></div>
+							</li>
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
