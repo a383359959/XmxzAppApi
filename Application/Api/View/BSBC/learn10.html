@@ -65,12 +65,12 @@
         <script>
         mui.plusReady(function(){
             mui(document).on("tap","#back",function(){
-                var show_detail = plus.webview.getWebviewById("show_detail.html");
-                if(show_detail !== null) mui.fire(show_detail,"closed");
+                var show_url = plus.webview.getWebviewById("show_url.html");
+                if(show_url !== null) mui.fire(show_url,"closed");
             });
 			plus.key.addEventListener("backbutton",function(){
-				var show_detail = plus.webview.getWebviewById('show_detail.html');
-				if(show_detail !== null) mui.fire(show_detail,'closed');
+				var show_url = plus.webview.getWebviewById('show_url.html');
+				if(show_url !== null) mui.fire(show_url,'closed');
 			});
         });
         </script>
